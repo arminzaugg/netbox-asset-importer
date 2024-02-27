@@ -17,7 +17,46 @@ const onDeleteImport = async (context) => {
 const startImport = async (context) => {
   console.log('import with id ', context.importId + ' got started');
 
-  // Call Assets API here to mark import as started
+  // Check if an import is already running
+  const configStatus = await api
+  .asUser()
+  .requestJira(
+    route`/jsm/assets/workspace/${context.workspaceId}/v1/importsource/${context.importId}/configstatus`,
+    {
+      method: "GET",
+    }
+  );
+  console.log('configStatus', configStatus);
+  const configJson = await configStatus.json();  
+
+  // If an import is already running, stop it
+  if (configJson.status === 'RUNNING') {
+    // Extract executionId from cancelUrl
+    const cancelUrl = configJson.links.cancel
+    const executionId = cancelUrl.split('/').pop();
+    const stopImport = await api
+      .asUser()
+      .requestJira(
+        route`/jsm/assets/workspace/${context.workspaceId}/v1/importsource/${context.importId}/executions/${executionId}`,
+        {
+          method: "DELETE",
+        }
+      );
+    console.log('stopImport', stopImport);
+  }
+  
+  // Create a new execution
+  const newlyCreatedExecution = await api
+    .asUser()
+    .requestJira(
+      route`/jsm/assets/workspace/${context.workspaceId}/v1/importsource/${context.importId}/executions`,
+      {
+        method: "POST",
+      }
+    );
+  console.log('newlyCreatedExecution', newlyCreatedExecution);
+  const newlyCreatedExecutionJson = await newlyCreatedExecution.json();
+  debugger;
 
   // Push event onto controller queue to start data ingestion process
   const id = await controllerQueue.push({eventContext: {importConfigurationId: context.importId}});
@@ -53,7 +92,6 @@ const App = () => {
   const onSubmit = async () => {
     console.log('submit button clicked, submitting schema to import source...');
     console.log('###\n', mapping);
-    debugger;
     const response = await api
       .asUser()
       .requestJira(
