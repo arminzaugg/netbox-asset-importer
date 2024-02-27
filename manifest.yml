@@ -1,9 +1,9 @@
 modules:
   jiraServiceManagement:assetsImportType:
-    - key: assets-import-v1-hello-world-import-type
+    - key: assets-import-v1
       function: renderImportConfig
-      title: assets-import-v1
-      description: This is a Hello World app.
+      title: Asset Import App v1
+      description: This is Netbox DCIM Importer App.
       icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
       onDeleteImport:
         function: onDeleteImport
