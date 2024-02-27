@@ -1,0 +1,46 @@
+modules:
+  jiraServiceManagement:assetsImportType:
+    - key: assets-import-v1-hello-world-import-type
+      function: renderImportConfig
+      title: assets-import-v1
+      description: This is a Hello World app.
+      icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+      onDeleteImport:
+        function: onDeleteImport
+      startImport:
+        function: startImport
+      stopImport:
+        function: stopImport
+      importStatus:
+        function: importStatus
+  function:
+    - key: renderImportConfig
+      handler: index.renderImportConfig
+    - key: onDeleteImport
+      handler: index.onDeleteImport
+    - key: startImport
+      handler: index.startImport
+    - key: stopImport
+      handler: index.stopImport
+    - key: importStatus
+      handler: index.importStatus
+    - key: workerQueueFunction
+      handler: index.workerQueueHandler
+    - key: controllerQueue
+      handler: index.controllerQueueHandler
+  consumer:
+    - key: assets-import-v1-worker-queue-consumer
+      queue: worker-queue
+      resolver:
+        function: workerQueueFunction
+        method: worker-queue-listener
+    - key: assets-import-v1-controller-queue-consumer
+      queue: controller-queue
+      resolver:
+        function: controllerQueue
+        method: controller-queue-listener
+permissions:
+  scopes:
+    - import:import-configuration:cmdb
+app:
+  id: ari:cloud:ecosystem::app/5ac2f31f-00a4-4809-9981-a82f66af0916
