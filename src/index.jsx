@@ -1,6 +1,8 @@
 import ForgeUI, {render, Text, AssetsAppImportTypeConfiguration, useProductContext} from '@forge/ui';
 import {controllerQueueHandler, controllerQueue} from './controller-resolver';
 import {workerQueueHandler} from './worker-resolver';
+import api, {route} from '@forge/api';
+import { mapping } from './schema';
 
 export {onDeleteImport, startImport, stopImport, importStatus, controllerQueueHandler, workerQueueHandler};
 
@@ -49,7 +51,30 @@ const App = () => {
   const importId = extensionContext.importId;
   const workspaceId = extensionContext.workspaceId;
   const onSubmit = async () => {
-    console.log('submit button clicked');
+    console.log('submit button clicked, submitting schema to import source...');
+    console.log('###\n', mapping);
+    debugger;
+    const response = await api
+      .asUser()
+      .requestJira(
+        route`/jsm/assets/workspace/${workspaceId}/v1/importsource/${importId}/mapping`,
+        {
+          method: "PUT",
+          body: JSON.stringify(mapping),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    // Write response to console
+    console.log(await response.json());
+    if (response.status === 204) {
+      console.log('schema submitted successfully');
+    }
+    if (response.status === 409) {
+      console.log('A mapping already exists for this import');
+    }
   };
 
   return (
