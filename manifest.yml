@@ -42,5 +42,6 @@ modules:
 permissions:
   scopes:
     - import:import-configuration:cmdb
+    - storage:app
 app:
   id: ari:cloud:ecosystem::app/5ac2f31f-00a4-4809-9981-a82f66af0916

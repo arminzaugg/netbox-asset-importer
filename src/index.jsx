@@ -1,7 +1,8 @@
 import ForgeUI, {render, Text, AssetsAppImportTypeConfiguration, useProductContext} from '@forge/ui';
 import {controllerQueueHandler, controllerQueue} from './controller-resolver';
 import {workerQueueHandler} from './worker-resolver';
-import api, {route} from '@forge/api';
+import api, {route, storage, startsWith} from '@forge/api';
+
 import { mapping } from './schema';
 
 export {onDeleteImport, startImport, stopImport, importStatus, controllerQueueHandler, workerQueueHandler};
@@ -16,6 +17,7 @@ const onDeleteImport = async (context) => {
 
 const startImport = async (context) => {
   console.log('import with id ', context.importId + ' got started');
+  
 
   // Check if an import is already running
   const configStatus = await api
@@ -33,7 +35,7 @@ const startImport = async (context) => {
   if (configJson.status === 'RUNNING') {
     // Extract executionId from cancelUrl
     const cancelUrl = configJson.links.cancel
-    const executionId = cancelUrl.split('/').pop();
+    let executionId = cancelUrl.split('/').pop();
     const stopImport = await api
       .asUser()
       .requestJira(
@@ -56,7 +58,15 @@ const startImport = async (context) => {
     );
   console.log('newlyCreatedExecution', newlyCreatedExecution);
   const newlyCreatedExecutionJson = await newlyCreatedExecution.json();
+  let executionId = newlyCreatedExecutionJson.links.cancel.split('/').pop();
   debugger;
+  
+  // Write Import Metadata to storage
+  await storage.set(`import-context`, {
+    importId: context.importId,
+    workspaceId: context.workspaceId,
+    executionId: executionId
+  });
 
   // Push event onto controller queue to start data ingestion process
   const id = await controllerQueue.push({eventContext: {importConfigurationId: context.importId}});

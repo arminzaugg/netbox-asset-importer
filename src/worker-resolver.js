@@ -1,5 +1,6 @@
 import Resolver from '@forge/resolver';
 import {Queue} from '@forge/events';
+import api, { route, storage } from '@forge/api';
 
 const resolver = new Resolver();
 
@@ -12,13 +13,52 @@ export const workerQueue = new Queue({key: 'worker-queue'});
 
 resolver.define('worker-queue-listener', async ({payload, context}) => {
   console.debug(
-    `Entering worker-queue-listener with payload: ${JSON.stringify(payload, null, 2)} and context: ${JSON.stringify(context, null, 2)}`
+    `### Entering worker-queue-listener with payload: ${JSON.stringify(payload, null, 2)} and context: ${JSON.stringify(context, null, 2)}`
   );
   await handleWork(payload.eventContext);
 });
 
 const handleWork = async (eventContext) => {
+  
+  debugger;
+  // Read import metadata from storage
+  const importContext = await storage.get('import-context');
+  
   // Fetch data from external system here
+  const data = {
+    "data": {
+      "hardDrives": [
+        {
+          "id": "Hard drive ID",
+          "label": "Hard drive label",
+          "os": "macOS Big Sur"
+        }
+      ],
+      "os": [
+        {
+          "name": "macOS Big Sur",
+          "version": "11.6.1"
+        }
+      ]
+    }
+  }
+  
+  // Call Assets API to write data to CMDB
+  const submitData = await api
+  .asApp()
+  .requestJira(
+    route`/jsm/assets/workspace/${importContext.workspaceId}/v1/importsource/${importContext.importId}/executions/${importContext.executionId}/data`,
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+  console.log('submitData', submitData);
+  debugger;
+
   // Update work items according to how much data is left to be fetched
   // And push to worker queue again if there is more data to be fetched
   // eg. await workerQueue.push({ eventContext: updatedWorkItem });
