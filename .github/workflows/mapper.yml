@@ -1,0 +1,22 @@
+name: Create JS file from JSON
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+        - uses: actions/checkout@v2
+
+        - name: Use Node.js
+          uses: actions/setup-node@v2
+          with:
+            node-version: '14'
+
+        - name: Run script
+          run: |
+                const fs = require('fs');
+                const schema = require('./schema.jsm.json');
+                fs.writeFileSync('./mapping.js', `module.exports = ${JSON.stringify(schema, null, 2)}`);
+          shell: node
