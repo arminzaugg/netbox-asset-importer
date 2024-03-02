@@ -13,6 +13,4 @@ jobs:
 
     - name: Run script
       run: |
-        echo "module.exports = $(jq -c . < schema.jsm.json);" > mapping.js
-        sed -i '1s/^/export const mapping = {\n/' mapping.js
-        echo '};' >> mapping.js
+        echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/mapping.js
