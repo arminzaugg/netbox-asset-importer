@@ -16,6 +16,13 @@
                             "description": "The unique identifier of the device",
                             "type": "integer",
                             "label": true
+                        },
+                        {
+                            "externalId": "object-type-attribute/name",
+                            "name": "name",
+                            "description": "The name of the device",
+                            "type": "text",
+                            "label": true
                         }
                     ]
                 }
@@ -37,7 +44,14 @@
                             "id"
                         ],
                         "externalIdPart": true
-                    }
+                    },
+                    {
+                        "attributeExternalId": "object-type-attribute/name",
+                        "attributeName": "name",
+                        "attributeLocators": [
+                            "name"
+                        ],
+                        "externalIdPart": false}
                 ]
             }
         ]
