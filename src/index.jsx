@@ -3,7 +3,7 @@ import {controllerQueueHandler, controllerQueue} from './controller-resolver';
 import {workerQueueHandler} from './worker-resolver';
 import api, {route, storage, startsWith} from '@forge/api';
 
-import { mapping } from './schema';
+import { mapping } from './mapping';
 
 export {onDeleteImport, startImport, stopImport, importStatus, controllerQueueHandler, workerQueueHandler};
 
