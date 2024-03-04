@@ -39,3 +39,10 @@ forge tunnel
 ## Support
 
 See [Get help](https://developer.atlassian.com/platform/forge/get-help/) for how to get help and provide feedback.
+
+## Development Notes
+
+ATM we create the schema.js file out of schema.jsm.json by using.
+1. ```rm src/schema.js```
+2. ```echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/schema.js```
+
