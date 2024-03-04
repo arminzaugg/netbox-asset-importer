@@ -3,7 +3,8 @@ import {controllerQueueHandler, controllerQueue} from './controller-resolver';
 import {workerQueueHandler} from './worker-resolver';
 import api, {route, storage, startsWith} from '@forge/api';
 
-import { mapping } from './mapping';
+import { mapping } from './schema';
+import { patchMapping } from './utils';
 
 export {onDeleteImport, startImport, stopImport, importStatus, controllerQueueHandler, workerQueueHandler};
 
@@ -110,7 +111,7 @@ const App = () => {
           method: "PUT",
           body: JSON.stringify(mapping),
           headers: {
-            Accept: "application/json",
+            "Accept": "application/json",
             "Content-Type": "application/json",
           },
         }
