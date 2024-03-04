@@ -1,10 +1,10 @@
-import ForgeUI, {render, Text, AssetsAppImportTypeConfiguration, useProductContext} from '@forge/ui';
+import ForgeUI, {render, Text, AssetsAppImportTypeConfiguration, useProductContext, Button} from '@forge/ui';
 import {controllerQueueHandler, controllerQueue} from './controller-resolver';
 import {workerQueueHandler} from './worker-resolver';
 import api, {route, storage, startsWith} from '@forge/api';
 
 import { mapping } from './schema';
-import { patchMapping } from './utils';
+import { deleteImportAndMapping, patchMapping } from './utils';
 
 export {onDeleteImport, startImport, stopImport, importStatus, controllerQueueHandler, workerQueueHandler};
 
