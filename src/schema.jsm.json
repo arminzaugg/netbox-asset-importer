@@ -2,7 +2,7 @@
     "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2021_09_15",
     "schema": {
         "objectSchema": {
-            "name": "dcim/device",
+            "name": "dcim",
             "description": "Device Assets imported from NetBox DCIM",
             "objectTypes": [
                 {
@@ -15,14 +15,22 @@
                             "name": "id",
                             "description": "The unique identifier of the device",
                             "type": "integer",
-                            "label": true
+                            "label": false,
+                            "unique": true
                         },
                         {
                             "externalId": "object-type-attribute/name",
-                            "name": "name",
+                            "name": "Device Name",
                             "description": "The name of the device",
                             "type": "text",
                             "label": true
+                        },
+                        {
+                            "externalId": "object-type-attribute/url",
+                            "name": "Netbox URL",
+                            "description": "Source URL of the device in Netbox",
+                            "type": "url",
+                            "label": false
                         }
                     ]
                 }
@@ -34,8 +42,8 @@
             {
                 "objectTypeExternalId": "object-type/device",
                 "objectTypeName": "Device",
-                "selector": "dcim/device",
-                "description": "Device",
+                "selector": "devices",
+                "description": "devices",
                 "attributesMapping": [
                     {
                         "attributeExternalId": "object-type-attribute/id",
@@ -51,7 +59,16 @@
                         "attributeLocators": [
                             "name"
                         ],
-                        "externalIdPart": false}
+                        "externalIdPart": false
+                    },
+                    {
+                        "attributeExternalId": "object-type-attribute/url",
+                        "attributeName": "url",
+                        "attributeLocators": [
+                            "url"
+                        ],
+                        "externalIdPart": false
+                    }
                 ]
             }
         ]
