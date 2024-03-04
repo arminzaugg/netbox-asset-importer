@@ -2,6 +2,9 @@ import Resolver from '@forge/resolver';
 import {Queue} from '@forge/events';
 import api, { route, storage } from '@forge/api';
 
+import { deviceData } from './devices';
+import { manufacturer } from './manufacturers';
+
 const resolver = new Resolver();
 
 // The responsibility of the worker queue is to fetch data from the external system
@@ -27,101 +30,12 @@ const handleWork = async (eventContext) => {
   // Fetch data from external system here
   const data = {
     "data": {
-      "devices": [
-          {
-            "id": 112,
-            "url": "https://demo.netbox.dev/api/dcim/devices/112/",
-            "display": "AMS2-SW01",
-            "name": "AMS2-SW01",
-            "device_type": {
-                "id": 15,
-                "url": "https://demo.netbox.dev/api/dcim/device-types/15/",
-                "display": "Cisco WS-C3850-48",
-                "manufacturer": {
-                    "id": 3,
-                    "url": "https://demo.netbox.dev/api/dcim/manufacturers/3/",
-                    "display": "Cisco",
-                    "name": "Cisco",
-                    "slug": "cisco"
-                },
-                "model": "Cisco WS-C3850-48",
-                "slug": "cisco-ws-c3850-48"
-            },
-            "role": {
-                "id": 2,
-                "url": "https://demo.netbox.dev/api/dcim/device-roles/2/",
-                "display": "Core Switch",
-                "name": "Core Switch",
-                "slug": "core-switch"
-            },
-            "device_role": {
-                "id": 2,
-                "url": "https://demo.netbox.dev/api/dcim/device-roles/2/",
-                "display": "Core Switch",
-                "name": "Core Switch",
-                "slug": "core-switch"
-            },
-            "tenant": null,
-            "platform": null,
-            "serial": "",
-            "asset_tag": null,
-            "site": {
-                "id": 28,
-                "url": "https://demo.netbox.dev/api/dcim/sites/28/",
-                "display": "AMS2",
-                "name": "AMS2",
-                "slug": "ams2"
-            },
-            "location": null,
-            "rack": null,
-            "position": null,
-            "face": null,
-            "latitude": null,
-            "longitude": null,
-            "parent_device": null,
-            "status": {
-                "value": "active",
-                "label": "Active"
-            },
-            "airflow": {
-                "value": "front-to-rear",
-                "label": "Front to rear"
-            },
-            "primary_ip": null,
-            "primary_ip4": null,
-            "primary_ip6": null,
-            "oob_ip": null,
-            "cluster": null,
-            "virtual_chassis": null,
-            "vc_position": null,
-            "vc_priority": null,
-            "description": "",
-            "comments": "",
-            "config_template": null,
-            "config_context": {},
-            "local_context_data": null,
-            "tags": [],
-            "custom_fields": {
-                "License": null,
-                "Serial": null
-            },
-            "created": "2024-03-01T12:53:01.535948Z",
-            "last_updated": "2024-03-01T12:53:01.536029Z",
-            "console_port_count": 0,
-            "console_server_port_count": 0,
-            "power_port_count": 0,
-            "power_outlet_count": 0,
-            "interface_count": 0,
-            "front_port_count": 0,
-            "rear_port_count": 0,
-            "device_bay_count": 0,
-            "module_bay_count": 0,
-            "inventory_item_count": 0
-        }
-      ],
+      "devices": deviceData.devices,
     }
-  }
+  };
   
+  
+  debugger;
   // Call Assets API to write data to CMDB
   const submitData = await api
   .asApp()
