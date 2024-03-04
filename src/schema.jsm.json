@@ -3,7 +3,7 @@
     "schema": {
         "objectSchema": {
             "name": "dcim",
-            "description": "Device Assets imported from NetBox DCIM",
+            "description": "Assets imported from NetBox DCIM",
             "objectTypes": [
                 {
                     "externalId": "object-type/device",
@@ -11,7 +11,7 @@
                     "description": "A device is a physical asset that is managed by NetBox DCIM",
                     "attributes": [
                         {
-                            "externalId": "object-type-attribute/id",
+                            "externalId": "object-type-attribute/device-id",
                             "name": "id",
                             "description": "The unique identifier of the device",
                             "type": "integer",
@@ -19,16 +19,45 @@
                             "unique": true
                         },
                         {
-                            "externalId": "object-type-attribute/name",
+                            "externalId": "object-type-attribute/device-name",
                             "name": "Device Name",
                             "description": "The name of the device",
                             "type": "text",
                             "label": true
                         },
                         {
-                            "externalId": "object-type-attribute/url",
+                            "externalId": "object-type-attribute/device-url",
                             "name": "Netbox URL",
                             "description": "Source URL of the device in Netbox",
+                            "type": "url",
+                            "label": false
+                        }
+                    ]
+                },
+                {
+                    "externalId": "object-type/manufacturer",
+                    "name": "Manufacturer",
+                    "description": "A manufacturer is a company that produces devices",
+                    "attributes": [
+                        {
+                            "externalId": "object-type-attribute/manufacturer-id",
+                            "name": "id",
+                            "description": "The unique identifier of the manufacturer",
+                            "type": "integer",
+                            "label": false,
+                            "unique": true
+                        },
+                        {
+                            "externalId": "object-type-attribute/manufacturer-name",
+                            "name": "Manufacturer Name",
+                            "description": "The name of the manufacturer",
+                            "type": "text",
+                            "label": true
+                        },
+                        {
+                            "externalId": "object-type-attribute/manufacturer-url",
+                            "name": "Netbox URL",
+                            "description": "Source URL of the manufacturer in Netbox",
                             "type": "url",
                             "label": false
                         }
@@ -46,15 +75,15 @@
                 "description": "devices",
                 "attributesMapping": [
                     {
-                        "attributeExternalId": "object-type-attribute/id",
+                        "attributeExternalId": "object-type-attribute/device-id",
                         "attributeName": "id",
                         "attributeLocators": [
                             "id"
                         ],
-                        "externalIdPart": true
+                        "externalIdPart": false
                     },
                     {
-                        "attributeExternalId": "object-type-attribute/name",
+                        "attributeExternalId": "object-type-attribute/device-name",
                         "attributeName": "name",
                         "attributeLocators": [
                             "name"
@@ -62,12 +91,44 @@
                         "externalIdPart": false
                     },
                     {
-                        "attributeExternalId": "object-type-attribute/url",
+                        "attributeExternalId": "object-type-attribute/device-url",
                         "attributeName": "url",
                         "attributeLocators": [
                             "url"
                         ],
+                        "externalIdPart": true
+                    }
+                ]
+            },
+            {
+                "objectTypeExternalId": "object-type/manufacturer",
+                "objectTypeName": "Manufacturer",
+                "selector": "manufacturers",
+                "description": "manufacturers",
+                "attributesMapping": [
+                    {
+                        "attributeExternalId": "object-type-attribute/manufacturer-id",
+                        "attributeName": "id",
+                        "attributeLocators": [
+                            "id"
+                        ],
                         "externalIdPart": false
+                    },
+                    {
+                        "attributeExternalId": "object-type-attribute/manufacturer-name",
+                        "attributeName": "name",
+                        "attributeLocators": [
+                            "name"
+                        ],
+                        "externalIdPart": false
+                    },
+                    {
+                        "attributeExternalId": "object-type-attribute/manufacturer-url",
+                        "attributeName": "url",
+                        "attributeLocators": [
+                            "url"
+                        ],
+                        "externalIdPart": true
                     }
                 ]
             }
