@@ -103,6 +103,7 @@ const App = () => {
   const onSubmit = async () => {
     console.log('submit button clicked, submitting schema to import source...');
     console.log('###\n', mapping);
+    debugger;
     const response = await api
       .asUser()
       .requestJira(

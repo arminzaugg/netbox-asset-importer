@@ -31,6 +31,16 @@
                             "description": "Source URL of the device in Netbox",
                             "type": "url",
                             "label": false
+                        },
+                        {
+                            "externalId": "object-type-attribute/device-manufacturer",
+                            "name": "Manufacturer",
+                            "description": "The manufacturer of the device",
+                            "type": "referenced_object",
+                            "referenceObjectTypeExternalId": "object-type/manufacturer",
+                            "referenceObjectTypeName": "Manufacturer",
+                            "label": false,
+                            "selector": "name"
                         }
                     ]
                 },
@@ -97,6 +107,17 @@
                             "url"
                         ],
                         "externalIdPart": true
+                    },
+                    {
+                        "attributeExternalId": "object-type-attribute/device-manufacturer",
+                        "attributeName": "manufacturer",
+                        "referenceObjectTypeName": "Manufacturer",
+                        "referenceObjectTypeExternalId": "object-type/manufacturer",
+                        "attributeLocators": [
+                            "device_type.manufacturer.id"
+                        ],
+                        "objectMappingIQL": "manufacturer = ${device_type.manufacturer.id}",
+                        "externalIdPart": false
                     }
                 ]
             },
