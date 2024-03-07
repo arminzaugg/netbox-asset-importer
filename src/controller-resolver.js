@@ -31,6 +31,9 @@ const handleControllerEvent = async (eventContext) => {
   // Once the initial work item is pushed to the worker queue,
   // keep pushing events to the controller queue with a delay until the work items are all complete
   // e.g. await controllerQueue.push({ eventContext: workItem });
+  
+  // Wait 5 seconds
+  await new Promise(resolve => setTimeout(resolve, 5000));
 
   // Once work items are all complete call the Assets API to signal the completion of data submission
   if (true){
