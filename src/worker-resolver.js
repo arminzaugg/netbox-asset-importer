@@ -31,7 +31,6 @@ const handleWork = async (eventContext) => {
   const data = {
     "data": {
       "devices": deviceData.devices,
-      "manufacturers": manufacturer.manufacturers
     }
   };
   
