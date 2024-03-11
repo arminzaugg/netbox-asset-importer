@@ -50,3 +50,5 @@ Asset schema supports two versions
 - "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2023_10_19",
 - "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2021_09_15",
 
+Testing PUT mapping requires SSL verification.
+
