@@ -46,3 +46,7 @@ ATM we create the schema.js file out of schema.jsm.json by using.
 1. ```rm src/schema.js```
 2. ```echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/schema.js```
 
+Asset schema supports two versions
+- "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2023_10_19",
+- "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2021_09_15",
+
