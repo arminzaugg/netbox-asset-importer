@@ -121,7 +121,7 @@ const App = () => {
   debugger;
   const onSubmit = async () => {
     console.log("submit button clicked, submitting schema to import source...");
-    console.log("###\n", mapping);
+    //console.log("###\n", mapping);
     const response = await api
       .asUser()
       .requestJira(
@@ -135,13 +135,14 @@ const App = () => {
           },
         },
       );
-    // Write response to console
-    console.log(await response.json());
     if (response.status === 204) {
       console.log("schema submitted successfully");
     }
     if (response.status === 409) {
       console.log("A mapping already exists for this import");
+    }
+    else {
+      console.log("status code: ", response.status);
     }
   };
 
