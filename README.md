@@ -52,3 +52,9 @@ Asset schema supports two versions
 
 Testing PUT mapping requires SSL verification.
 
+
+For whatever reason ngrok needs to be in the node module foldere. I symlink it there
+```
+ln -s $(which ngrok) /Users/aza/.nvm/versions/node/v20.10.0/lib/node_modules/@forge/cli/node_modules/ngrok/bin/ngrok
+```
+
