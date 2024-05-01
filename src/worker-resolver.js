@@ -4,6 +4,7 @@ import api, { route, storage } from '@forge/api';
 
 import { deviceData } from './devices';
 import { manufacturer } from './manufacturers';
+import { fetchDeviceData } from './utils';
 
 const resolver = new Resolver();
 
@@ -27,12 +28,20 @@ const handleWork = async (eventContext) => {
   // Read import metadata from storage
   const importContext = await storage.get('import-context');
   
-  // Fetch data from external system here
+  const remoteData = await fetchDeviceData();
   const data = {
     "data": {
-      "devices": deviceData.devices,
+      "devices": remoteData.results,
     }
   };
+  console.log('data', data);
+  
+  // Fetch data from external system here
+  // const data = {
+  //   "data": {
+  //     "devices": deviceData.devices,
+  //   }
+  // };
   
   
   debugger;

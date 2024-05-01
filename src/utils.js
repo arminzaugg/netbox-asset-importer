@@ -38,3 +38,32 @@ export const deleteImportAndMapping = async (workspaceId, importId, executionId)
     console.log(response.json());
     return response.json();
 };
+
+// Helper function to fetch device data from external system
+export const fetchDeviceData = async () => {
+console.log("fetching data from external system");
+//const apiToken = await storage.getSecret('api-token');
+
+const apiToken = "73eae4b929acb7aece672dadf18f6acf91350836";
+const nbHeaders = new Headers();
+nbHeaders.append("Authorization", `Token ${apiToken}`);
+nbHeaders.append("Content-Type", "application/json");
+
+const requestOptions = {
+  method: "GET",
+  headers: nbHeaders,
+  redirect: "follow"
+};
+
+try {
+    const response = await fetch("https://demo.netbox.dev/api/dcim/devices/", requestOptions);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result; // Returns the JSON object directly
+  } catch (error) {
+    console.error("Failed to fetch device data:", error);
+    throw error; // Rethrow or handle as needed for further error handling up the chain
+  }
+};

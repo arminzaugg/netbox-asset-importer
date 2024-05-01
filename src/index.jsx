@@ -147,7 +147,7 @@ const App = () => {
       console.log("status code: ", response.status);
     }
     console.log("save api token to secret store...")
-    const secret = await storage.setSecret('token', formData.apiToken);
+    const apiToken = await storage.setSecret('api-token', formData.apiToken);
   };
 
   return (
