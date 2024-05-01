@@ -1,10 +1,12 @@
 import ForgeUI, {
+  useState,
   render,
   Text,
   AssetsAppImportTypeConfiguration,
   useProductContext,
   Button,
   Heading,
+  TextField,
 } from "@forge/ui";
 import { controllerQueueHandler, controllerQueue } from "./controller-resolver";
 import { workerQueueHandler } from "./worker-resolver";
@@ -73,7 +75,6 @@ const startImport = async (context) => {
   console.log("newlyCreatedExecution", newlyCreatedExecution);
   const newlyCreatedExecutionJson = await newlyCreatedExecution.json();
   let executionId = newlyCreatedExecutionJson.links.cancel.split("/").pop();
-  debugger;
 
   // Write Import Metadata to storage
   await storage.set(`import-context`, {
@@ -118,8 +119,9 @@ const App = () => {
   const { extensionContext } = useProductContext();
   const importId = extensionContext.importId;
   const workspaceId = extensionContext.workspaceId;
+  const [password, setPassword] = useState("");
   debugger;
-  const onSubmit = async () => {
+  const onSubmit = async (formData) => {
     console.log("submit button clicked, submitting schema to import source...");
     //console.log("###\n", mapping);
     const response = await api
@@ -144,6 +146,8 @@ const App = () => {
     else {
       console.log("status code: ", response.status);
     }
+    console.log("save api token to secret store...")
+    const secret = await storage.setSecret('token', formData.apiToken);
   };
 
   return (
@@ -153,6 +157,16 @@ const App = () => {
         Netbox Importer App Config, ImportId = {importId}, WorkspaceId ={" "}
         {workspaceId}
       </Text>
+      <TextField
+        label="Netbox API URL"
+        name="apiUrl"
+        defaultValue="https://demo.netbox.dev/api/"
+      />
+      <TextField
+        label="Netbox API Token"
+        name="apiToken"
+        type="password"
+      />
     </AssetsAppImportTypeConfiguration>
   );
 };
