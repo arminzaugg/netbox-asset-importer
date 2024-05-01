@@ -1,12 +1,14 @@
 import ForgeUI, {
   useState,
+  useProductContext,
+  useEffect,
   render,
   Text,
   AssetsAppImportTypeConfiguration,
-  useProductContext,
   Button,
   Heading,
   TextField,
+  useAction,
 } from "@forge/ui";
 import { controllerQueueHandler, controllerQueue } from "./controller-resolver";
 import { workerQueueHandler } from "./worker-resolver";
@@ -119,11 +121,64 @@ const App = () => {
   const { extensionContext } = useProductContext();
   const importId = extensionContext.importId;
   const workspaceId = extensionContext.workspaceId;
-  const [password, setPassword] = useState("");
+
+  // State for the form fields
+  const [apiUrl, setApiUrl] = useAction(null);
+  const [apiToken, setApiToken] = useAction(null);
+
+
+// Fetch existing configuration on component mount
+useAction(() => {
+  async function fetchConfig() {
+    console.log("Fetching existing configuration...");
+
+    try {
+      // Fetch API URL and Token from storage, assuming keys are 'api-url' and 'api-token'
+      const apiUrlResponse = await storage.get('api-url');
+      const apiTokenResponse = await storage.getSecret('api-token');
+
+      // Update state only if responses are valid
+      if (apiUrlResponse) {
+        setApiUrl(apiUrlResponse);
+      }
+      if (apiTokenResponse) {
+        setApiToken(apiTokenResponse);
+      }
+    } catch (error) {
+      console.error('Error fetching configuration:', error);
+    }
+  }
+
+  fetchConfig();
+}, []); // Empty dependency array ensures this runs only once when the component mounts
+
+    
+
   debugger;
   const onSubmit = async (formData) => {
     console.log("submit button clicked, submitting schema to import source...");
-    //console.log("###\n", mapping);
+
+    // Update API URL and Token in storage
+    console.log("Form data received:", formData);
+
+  // Example: updating storage with the new API URL and token
+    try {
+      // Storing API URL and token using Forge's storage API
+      if (formData.apiUrl) {
+        await storage.set('api-url', formData.apiUrl);
+        console.log("API URL updated successfully.");
+      }
+      if (formData.apiToken) {
+        await storage.setSecret('api-token', formData.apiToken);
+        console.log("API Token updated successfully.");
+      }
+        // Additional business logic based on form submission
+        console.log("Form submitted and processed successfully.");
+      } catch (error) {
+        console.error("Error handling form submission:", error);
+      }
+
+
     const response = await api
       .asUser()
       .requestJira(
@@ -146,8 +201,6 @@ const App = () => {
     else {
       console.log("status code: ", response.status);
     }
-    console.log("save api token to secret store...")
-    const apiToken = await storage.setSecret('api-token', formData.apiToken);
   };
 
   return (
@@ -160,12 +213,15 @@ const App = () => {
       <TextField
         label="Netbox API URL"
         name="apiUrl"
-        defaultValue="https://demo.netbox.dev/api/"
+        defaultValue={apiUrl}
+        placeholder="Enter API Endpoint URL"
       />
       <TextField
         label="Netbox API Token"
         name="apiToken"
-        type="password"
+        //type="password"
+        defaultValue={apiToken}
+        placeholder="Enter API Token"
       />
     </AssetsAppImportTypeConfiguration>
   );
