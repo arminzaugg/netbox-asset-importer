@@ -42,9 +42,8 @@ export const deleteImportAndMapping = async (workspaceId, importId, executionId)
 // Helper function to fetch device data from external system
 export const fetchDeviceData = async () => {
 console.log("fetching data from external system");
-//const apiToken = await storage.getSecret('api-token');
+const apiToken = await storage.getSecret('api-token');
 
-const apiToken = "73eae4b929acb7aece672dadf18f6acf91350836";
 const nbHeaders = new Headers();
 nbHeaders.append("Authorization", `Token ${apiToken}`);
 nbHeaders.append("Content-Type", "application/json");
