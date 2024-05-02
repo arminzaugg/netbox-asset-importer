@@ -123,19 +123,19 @@ const App = () => {
   const workspaceId = extensionContext.workspaceId;
 
   // State for the form fields
-  const [apiUrl, setApiUrl] = useAction(null);
-  const [apiToken, setApiToken] = useAction(null);
+  const [apiUrl, setApiUrl] = useState(null);
+  const [apiToken, setApiToken] = useState(null);
+  // Fetch API URL and Token from storage, assuming keys are 'api-url' and 'api-token'
+  const apiUrlResponse = storage.get('api-url');
+  const apiTokenResponse = storage.getSecret('api-token');
 
 
 // Fetch existing configuration on component mount
-useAction(() => {
+useEffect(() => {
   async function fetchConfig() {
     console.log("Fetching existing configuration...");
 
     try {
-      // Fetch API URL and Token from storage, assuming keys are 'api-url' and 'api-token'
-      const apiUrlResponse = await storage.get('api-url');
-      const apiTokenResponse = await storage.getSecret('api-token');
 
       // Update state only if responses are valid
       if (apiUrlResponse) {
@@ -166,10 +166,12 @@ useAction(() => {
       // Storing API URL and token using Forge's storage API
       if (formData.apiUrl) {
         await storage.set('api-url', formData.apiUrl);
+        setApiUrl(formData.apiUrl);
         console.log("API URL updated successfully.");
       }
       if (formData.apiToken) {
         await storage.setSecret('api-token', formData.apiToken);
+        setApiToken(formData.apiToken);
         console.log("API Token updated successfully.");
       }
         // Additional business logic based on form submission
@@ -219,7 +221,7 @@ useAction(() => {
       <TextField
         label="Netbox API Token"
         name="apiToken"
-        //type="password"
+        type="password"
         defaultValue={apiToken}
         placeholder="Enter API Token"
       />
