@@ -1,4 +1,4 @@
-import api, {route, storage, startsWith} from '@forge/api';
+import api, {route, storage, fetch} from '@forge/api';
 
 export const patchMapping = async (workspaceId, importId, mapping) => {
     debugger;
