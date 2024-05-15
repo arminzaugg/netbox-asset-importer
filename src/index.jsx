@@ -123,11 +123,8 @@ const App = () => {
   const workspaceId = extensionContext.workspaceId;
 
   // State for the form fields
-  const [apiUrl, setApiUrl] = useState(null);
-  const [apiToken, setApiToken] = useState(null);
-  // Fetch API URL and Token from storage, assuming keys are 'api-url' and 'api-token'
-  const apiUrlResponse = storage.get('api-url');
-  const apiTokenResponse = storage.getSecret('api-token');
+  const [apiUrl, setApiUrl] = useState('');
+  const [apiToken, setApiToken] = useState('');
 
 
 // Fetch existing configuration on component mount
@@ -136,9 +133,13 @@ useEffect(() => {
     console.log("Fetching existing configuration...");
 
     try {
-
       // Update state only if responses are valid
+      // Fetch API URL and Token from storage, assuming keys are 'api-url' and 'api-token'
+      const apiUrlResponse = await storage.get('api-url');
+      const apiTokenResponse = await storage.getSecret('api-token');
+      console.log("apiUrlResponse", apiUrlResponse);
       if (apiUrlResponse) {
+        console.log(`set apiUrl with value ${apiUrlResponse} of type ${typeof apiUrlResponse}`)
         setApiUrl(apiUrlResponse);
       }
       if (apiTokenResponse) {
@@ -150,7 +151,7 @@ useEffect(() => {
   }
 
   fetchConfig();
-}, []); // Empty dependency array ensures this runs only once when the component mounts
+}, [apiUrl]); // Empty dependency array ensures this runs only once when the component mounts
 
     
 
@@ -209,19 +210,17 @@ useEffect(() => {
     <AssetsAppImportTypeConfiguration onSubmit={onSubmit}>
       <Heading size="large">Netbox Importer Config</Heading>
       <Text>
-        Netbox Importer App Config, ImportId = {importId}, WorkspaceId ={" "}
-        {workspaceId}
+        Netbox Importer App Config
+        ImportId - {importId}
+        WorkspaceId -{workspaceId}
       </Text>
-      <TextField
-        label="Netbox API URL"
-        name="apiUrl"
-        defaultValue={apiUrl}
-        placeholder="Enter API Endpoint URL"
-      />
+      <Text>
+        Please note that the API token must on be set once and will be stored securely.
+        Once saved the key will no longer be displayed.
+      </Text>
       <TextField
         label="Netbox API Token"
         name="apiToken"
-        type="password"
         defaultValue={apiToken}
         placeholder="Enter API Token"
       />
