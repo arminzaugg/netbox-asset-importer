@@ -1,17 +1,28 @@
-name: Create JS file from JSON
+name: Create JS mapping file from JSON schema
 
-on: [push, workflow_dispatch] 
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main 
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Install jq
-      run: sudo apt-get install jq
+      run: sudo apt-get install -y jq
 
-    - name: Run script
+    - name: Remove existing mapping.js if it exists
       run: |
-        rm src/mapping.js
+        if [ -f src/mapping.js ]; then
+          rm src/mapping.js
+        fi
+
+    - name: Generate mapping.js from schema.jsm.json
+      run: |
         echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/mapping.js
