@@ -42,10 +42,10 @@ See [Get help](https://developer.atlassian.com/platform/forge/get-help/) for how
 ## Improvement Suggestions
 
 
-[]implement pagination.
-[]extend schema to support more DCIM types e.g. circuits and others.
-[]rewrite url property after fetch so that link points to UI instead of api endpoint.
-[]randomize externalID in schema so that multiple install of the app on same site is possible.
+- [ ] implement pagination.
+- [ ] extend schema to support more DCIM types e.g. circuits and others.
+- [ ] rewrite url property after fetch so that link points to UI instead of api endpoint.
+- [ ] randomize externalID in schema so that multiple install of the app on same site is possible.
 
 ## Development Notes
 
