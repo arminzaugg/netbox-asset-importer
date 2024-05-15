@@ -2,6 +2,7 @@ name: Check for Leaks
 
 on: 
   push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
