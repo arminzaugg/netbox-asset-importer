@@ -5,17 +5,13 @@ import ForgeUI, {
   render,
   Text,
   AssetsAppImportTypeConfiguration,
-  Button,
   Heading,
   TextField,
-  useAction,
 } from "@forge/ui";
 import { controllerQueueHandler, controllerQueue } from "./controller-resolver";
 import { workerQueueHandler } from "./worker-resolver";
 import api, { route, storage, startsWith } from "@forge/api";
-
 import { mapping } from "./schema";
-import { deleteImportAndMapping, patchMapping } from "./utils";
 
 export {
   onDeleteImport,
@@ -215,9 +211,15 @@ useEffect(() => {
         WorkspaceId -{workspaceId}
       </Text>
       <Text>
-        Please note that the API token must on be set once and will be stored securely.
-        Once saved the key will no longer be displayed.
+        Please note that the URL and the API token must on be set once and will be stored securely.
+        Once saved the key will no longer be displayed. Exit the Form by clicking on cancel.
       </Text>
+      <TextField
+        label="Netbox URL"
+        name="apiUrl"
+        defaultValue={apiUrl}
+        placeholder="Enter URL e.g https://demo.netbox.dev/api/"
+      />
       <TextField
         label="Netbox API Token"
         name="apiToken"
