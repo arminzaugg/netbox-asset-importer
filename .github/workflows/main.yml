@@ -1,10 +1,12 @@
-name: Create JS mapping file from JSON schema
+name: Create JS file from JSON
 
-on: 
-  workflow_dispatch:
+on:
   push:
     branches:
-      - main 
+      - main
+  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
   build:
@@ -26,3 +28,19 @@ jobs:
     - name: Generate mapping.js from schema.jsm.json
       run: |
         echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/mapping.js
+
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Commit and push changes
+      run: |
+        git add src/mapping.js
+        git commit -m "Update mapping.js from schema.jsm.json"
+        git push
+      env:
+        # The GITHUB_TOKEN is automatically provided by GitHub Actions.
+        # It is used to authenticate and push the commit.
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
