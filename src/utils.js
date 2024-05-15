@@ -41,7 +41,8 @@ export const deleteImportAndMapping = async (workspaceId, importId, executionId)
 
 // Helper function to fetch device data from external system
 export const fetchDeviceData = async () => {
-console.log("fetching data from external system");
+console.log("fetching data from NetBox...");
+const apiURLBase = await storage.get('api-url');
 const apiToken = await storage.getSecret('api-token');
 
 const nbHeaders = new Headers();
@@ -55,7 +56,7 @@ const requestOptions = {
 };
 
 try {
-    const response = await fetch("https://demo.netbox.dev/api/dcim/devices/", requestOptions);
+    const response = await fetch(`${apiURLBase}dcim/devices/`, requestOptions);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
