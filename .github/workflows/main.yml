@@ -13,4 +13,5 @@ jobs:
 
     - name: Run script
       run: |
+        rm src/mapping.js
         echo "export const mapping = $(jq -c . < src/schema.jsm.json);" > src/mapping.js
