@@ -1,7 +1,7 @@
-# Forge "Hello, World!"
+# Jira Asset Importer for Netbox"
 
-This project contains a Forge app written in Javascript that displays "Hello, World!" and ImportId in the "Configure App" modal for 3rd Party Import Structures. 
-It also outlines how to make use of Forge's Async Events API to import 3rd party data into Assets by setting up a controller and worker queue for data ingestion. 
+This project contains a Forge app written in Javascript that takes a Netbox API endpoint and token as input. It fetches devices from Netbox and imports them into Jira Assets. 
+Data is mapped as per mapping schema.
 
 See [developer.atlassian.com/platform/forge/assets-import-app/](https://developer.atlassian.com/platform/forge/assets-import-app) for documentation and tutorial of this Forge Template, including the [documentation of Asset APIs](https://developer.atlassian.com/cloud/assets/). 
 
@@ -13,8 +13,6 @@ With the Controller Queue a reference to `controller-resolver.js` and Worker Que
 See [Set up Forge](https://developer.atlassian.com/platform/forge/set-up-forge/) for instructions to get set up.
 
 ## Quick start
-
-- Modify your app by editing the `src/index.jsx` file.
 
 - Build and deploy your app by running:
 ```
@@ -51,7 +49,6 @@ Asset schema supports two versions
 - "$schema": "https://api.atlassian.com/jsm/assets/imports/external/schema/versions/2021_09_15",
 
 Testing PUT mapping requires SSL verification.
-
 
 For whatever reason ngrok needs to be in the node module foldere. I symlink it there
 ```
