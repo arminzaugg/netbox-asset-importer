@@ -20,8 +20,3 @@ jobs:
         # Start scanning from here (usually main branch)
         base: "main"
         # Scan commits until here (can be a branch or commit hash)
-        head: "HEAD"
-        # Extra args to be passed to the trufflehog cli
-        extra_args: ""
-        # Scan with this trufflehog cli version (default is latest)
-        version: "latest"
