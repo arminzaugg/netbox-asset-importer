@@ -33,6 +33,7 @@ forge tunnel
 - Use the `forge deploy` command when you want to persist code changes.
 - Use the `forge install` command when you want to install the app on a new site.
 - Once the app is installed on a site, the site picks up the new app changes you deploy without needing to rerun the install command.
+- Pagination is not implemented. One can configure Netbox to return more than 50 records if needed.
 
 ## Support
 
